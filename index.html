@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <title>Device Properties Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+	<script type="text/javascript"
+		src="https://maps.googleapis.com/maps/api/js?sensor=true">
+    </script>
+    
+    
+	<script type="text/javascript" charset="utf-8">
+		var map;
+		var indicador;
+		
+		function initialize(){
+			var mapOptions = {
+			    zoom: 15,
+			    center: new google.maps.LatLng(41.656, -0.876),
+			    mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+			map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+			
+			indicator = new google.maps.Marker({
+				position: new google.maps.LatLng(41.656, -0.876),
+				map: map
+			});	
+		}
+    </script>
+    
+    
+    
+	<script type="text/javascript">
+		function seEncuentraAqui(){
+			navigator.geolocation.getCurrentPosition(GPS, error, {enableHighAccuracy:true});
+		}
+		
+		function GPS(coordenadas){
+			var ubicacion = new google.maps.LatLng(
+													coordenadas.coords.latitude, 
+													coordenadas.coords.longitude
+												   );
+			map.setCenter(ubicacion);
+			indicador.setPisition(ubicacion);
+		}
+    
+	    function error(error) {
+	        alert('code: '    + error.code    + '\n' +
+	              'message: ' + error.message + '\n');
+	    }
+
+    </script>
+    
+    
+	<style type="text/css">
+	 	html { height: 100% }
+	  	body { height: 100%; margin: 0; padding: 0 }
+	  	#map_canvas { height: 80% }
+	</style>
+	
+</head>
+ 
+<body onload="initialize()">
+    
+    <div id="map_canvas"></div>
+	<button onclick="seEncuentraAqui()">Usted esta aquí</button>    
+</body>
+</html>
